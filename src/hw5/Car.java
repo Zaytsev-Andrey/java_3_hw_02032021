@@ -5,17 +5,19 @@ public class Car implements Runnable {
     private Race race;
     private int speed;
     private String name;
+    private SynchronizationManage synManage;
     public String getName() {
         return name;
     }
     public int getSpeed() {
         return speed;
     }
-    public Car(Race race, int speed) {
+    public Car(Race race, int speed, SynchronizationManage synManage) {
         this.race = race;
         this.speed = speed;
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
+        this.synManage = synManage;
     }
     @Override
     public void run() {
@@ -23,6 +25,8 @@ public class Car implements Runnable {
             System.out.println(this.name + " готовится");
             Thread.sleep(500 + (int)(Math.random() * 800));
             System.out.println(this.name + " готов");
+            synManage.getWaitingReady().countDown();
+            synManage.getWaitingStart().await();
         } catch (Exception e) {
             e.printStackTrace();
         }

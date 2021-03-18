@@ -8,5 +8,6 @@ public class Race {
     public ArrayList<Stage> getStages() { return stages; }
     public Race(Stage... stages) {
         this.stages = new ArrayList<>(Arrays.asList(stages));
+        this.stages.get(this.stages.size() - 1).isFinishStage = true;
     }
 }
